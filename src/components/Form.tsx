@@ -7,8 +7,13 @@
 ****************************************************************************************************************************
 */
 
+
+import React, { useState, ChangeEvent, SubmitEvent, handleBlur } from "react";
+
 import faceIcon from '../assets/faceicon.jpg'
-import React, { useState, ChangeEvent, SubmitEvent } from "react";
+import { checkNotIsEmpty,validateEmail,validateFlexiblePhone } from "../utils/validation";
+import { saveData } from "../services/saveData";
+import { saveEditedData } from "../services/editDeleteData";
 
 
 
@@ -24,27 +29,71 @@ export default function RenderForm() {
         gender: "",
     });
 
-    // Handle input changes
+    // This is for Html Input element if pesent in form design. Handle input changes    
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
         ...prev,
         [name]: value
-        }));
+        })); 
+        
+       /* alert(e.target.name); alert(e.target.value);
+        if(e.target.name == "userName"){
+            checkNotIsEmpty(e.target.value);
+        }
+
+        if(e.target.name == "email"){
+            validateEmail(e.target.value);
+        }
+
+        if(e.target.name == "phone"){
+            validateFlexiblePhone(e.target.value);
+        }*/
+
     };
 
+    // This is for Input element validation when user has stopped writing in that field. 
+    const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+
+        // Name validation
+        if (name === "userName") {
+            checkNotIsEmpty(value);
+        }
+
+        // Email validation
+        if (name === "email") {
+            validateEmail(value);
+        }
+
+        // Phone validation
+        if (name === "phone") {
+            validateFlexiblePhone(value);
+        }
+    };
+
+    // This is for HtmlSelect dropdown element if pesent in form design 
     const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value);
+        //console.log(e.target.value);
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+        ...prev,
+        [name]: value
+        })); 
+
     };
 
-    // 3. Handle submission
+    // Handle Form Submission
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
         console.log('Form Submitted:', formData);
         alert(`Hello, ${formData.userName}!`);
+        saveData();
     };
 
   
+
+
   return (
     <>
 
@@ -61,7 +110,8 @@ export default function RenderForm() {
           </label><br/>
           <input type="text" id="userName" name="userName" required           
             value={formData.userName}
-            onChange={handleChange}/><br/>
+            onChange={handleChange}
+            onBlur={handleBlur}/><br/>
 
           <label htmlFor="email">
               Email:
@@ -69,7 +119,8 @@ export default function RenderForm() {
           </label><br/>
           <input type="email" id="email" name="email" required 
             value={formData.email}
-            onChange={handleChange}/><br/>
+            onChange={handleChange}
+            onBlur={handleBlur}/><br/>
             
           <label htmlFor="phone">
               Phone:
@@ -77,7 +128,8 @@ export default function RenderForm() {
           </label><br/>
           <input type="text" id="phone" name="phone" required 
             value={formData.phone}
-            onChange={handleChange}/><br/>
+            onChange={handleChange}
+            onBlur={handleBlur}/><br/>
 
 
           <label htmlFor="gender">Gender:</label><br/>
