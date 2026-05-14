@@ -7,7 +7,11 @@
 * Created     : 2026-05-24
 ****************************************************************************************************************************
 */
+import editIcon from '../assets/editIcon.jpg'
+import deleteIcon from '../assets/deleteIcon.jpg'
 import type { EntryDataBase } from "../type";
+
+
 //This function will create a tablular format to display already entered data from browser's localstorage.
 export function createTableFromData(data: EntryDataBase){
   
@@ -42,10 +46,18 @@ export function createTableFromData(data: EntryDataBase){
   cellTwo.innerHTML = data.email;
   cellThree.innerHTML = data.phone;
   cellFour.innerHTML = data.gender;
-  cellFive.innerHTML = "<span class='editBtn' value='Edit'>Edit</span>";
-  cellSix.innerHTML = "<span class='deleteBtn' value='X'>X</span>";
+
+  cellFive.innerHTML = `  
+    <img src='${editIcon}' class='editDeleteIcon' />  
+  `;
+
+  cellSix.innerHTML = `  
+    <img src='${deleteIcon}' class='editDeleteIcon' />  
+  `;
+  
+  
 
   // Setting colors to edit and delete(X) buttons
-  cellFive.style.color = "blue";
-  cellSix.style.color = "red";
+  //cellFive.style.color = "blue";
+  //cellSix.style.color = "red";
 }

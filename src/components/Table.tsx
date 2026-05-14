@@ -1,12 +1,19 @@
 /*
 ****************************************************************************************************************************
 * Filename    : Form
-* Description : This file holds Registration form design in React
+* Description : This file holds Table design in React
 * Author      : Elishree Dey Chand
 * Created     : 2026-05-13
 ****************************************************************************************************************************
 */
+
+//Import images needed in Registered Table data
 import listIcon from '../assets/listicon.jpg'
+import editIcon from '../assets/editIcon.jpg'
+import deleteIcon from '../assets/deleteIcon.jpg'
+
+//import data type
+import type { EntryDataBase } from "../type";
 
 
 /* In react component name as function should start with Capital e.g:RenderForm no error but e.g:renderForm
@@ -29,9 +36,10 @@ export default function RenderTable() {
                     <th className="storedDataColHeader">Email</th>
                     <th className="storedDataColHeader">Phone</th>
                     <th className="storedDataColHeader">Gender</th>
-                    <th className="storedDataColHeader" >Action</th>
+                    <th colSpan={2} className="storedDataColHeader" >Action</th>
                 </tr>
             </thead>
+            
         </table>
     </div>
     <span id="editTableRowNo" className="invisible"></span>
