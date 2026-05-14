@@ -8,7 +8,8 @@
 */
 
 
-import React, { useState, ChangeEvent, SubmitEvent, handleBlur } from "react";
+//import React, { useState } from "react";
+import React, { useState, ChangeEvent, SubmitEvent } from "react";
 
 import faceIcon from '../assets/faceicon.jpg'
 import { checkNotIsEmpty,validateEmail,validateFlexiblePhone } from "../utils/validation";
@@ -27,18 +28,21 @@ export default function RenderForm() {
         email: "",
         phone: "",
         gender: "",
+        mandatoryName:"*",
+        mandatoryEmail:"*",
+        mandatoryPhone:"*",
     });
 
     // This is for Html Input element if pesent in form design. Handle input changes    
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
         ...prev,
         [name]: value
         })); 
         
-       /* alert(e.target.name); alert(e.target.value);
-        if(e.target.name == "userName"){
+        //alert(e.target.name); alert(e.target.value);
+        /* if(e.target.name == "userName"){
             checkNotIsEmpty(e.target.value);
         }
 
@@ -56,38 +60,105 @@ export default function RenderForm() {
     const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Name validation
-        if (name === "userName") {
-            checkNotIsEmpty(value);
-        }
+        //alert(e.target.name); alert(e.target.value);
 
-        // Email validation
-        if (name === "email") {
-            validateEmail(value);
-        }
+        // -------- START of Name validation no NULL value --------
+        if (name === "userName" && value != "") {
+            const result = checkNotIsEmpty(value); //alert(result.isValid);
+            // If valid Name and result is true
+            if (result.isValid) { 
+                setFormData((prev) => ({
+                    ...prev,
+                    mandatoryName: "",
+                }));
+            }
 
-        // Phone validation
-        if (name === "phone") {
-            validateFlexiblePhone(value);
+            // If invalid Name result is false show error msg
+            else { 
+                setFormData((prev) => ({
+                    ...prev,
+                    mandatoryName: result.errorMessage,
+                }));
+            }
+        }// If name input is empty show * mark
+        else if(name === "userName" && value == ""){ 
+            setFormData((prev) => ({
+                ...prev,
+                mandatoryName: "*",
+            }));
         }
+        // -------- END of Name validation no NULL value --------
+
+
+        // -------- START of Email validation -------- 
+        if (name === "email" && value != "") {
+            const result = validateEmail(value); 
+
+            // If valid email and result is true
+            if (result.isValid) { 
+                setFormData((prev) => ({
+                    ...prev,
+                    mandatoryEmail: "",
+                }));
+            }
+
+            // If invalid email result is false show error msg
+            else { 
+                setFormData((prev) => ({
+                    ...prev,
+                    mandatoryEmail: result.errorMessage,
+                }));
+            }
+        }
+        // If email input is empty show * mark
+        else if(name === "email" && value == ""){ 
+            setFormData((prev) => ({
+                ...prev,
+                mandatoryEmail: "*",
+            }));
+        }
+        // -------- END of Email validation -------- 
+
+
+        // -------- Start of Phone validation -------- 
+        if (name === "phone" && value != "") {
+            const result = validateFlexiblePhone(value); //alert(result.errorMessage);
+
+            // If valid phone and result is true
+            if (result.isValid) { 
+                setFormData((prev) => ({
+                    ...prev,
+                    phone: result.formattedPhone,
+                    mandatoryPhone: "",
+                }));
+            }
+
+            // If invalid phone result is false
+            else { 
+                setFormData((prev) => ({
+                    ...prev,
+                    mandatoryPhone: result.errorMessage,
+                }));
+            }
+        }
+        // If phone input is empty show * mark
+        else if(name === "phone" && value == ""){ 
+            setFormData((prev) => ({
+                ...prev,
+                mandatoryPhone: "*",
+            }));
+        }
+        // -------- Start of Phone validation -------- 
+        
     };
-
-    // This is for HtmlSelect dropdown element if pesent in form design 
-    const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        //console.log(e.target.value);
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-        ...prev,
-        [name]: value
-        })); 
-
-    };
+    
+    
 
     // Handle Form Submission
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
         console.log('Form Submitted:', formData);
-        alert(`Hello, ${formData.userName}!`);
+        //alert(`Hello, ${formData.userName}!`);
         saveData();
     };
 
@@ -106,7 +177,9 @@ export default function RenderForm() {
 
           <label htmlFor="userName">
               First name:
-              <span id="mandatoryName" className="mandatory">*</span>
+              <span id="mandatoryName" className="mandatory">
+                {formData.mandatoryName}
+              </span>
           </label><br/>
           <input type="text" id="userName" name="userName" required           
             value={formData.userName}
@@ -115,7 +188,9 @@ export default function RenderForm() {
 
           <label htmlFor="email">
               Email:
-              <span id="mandatoryEmail" className="mandatory">*</span>
+              <span id="mandatoryEmail" className="mandatory">
+                {formData.mandatoryEmail}
+              </span>
           </label><br/>
           <input type="email" id="email" name="email" required 
             value={formData.email}
@@ -123,8 +198,10 @@ export default function RenderForm() {
             onBlur={handleBlur}/><br/>
             
           <label htmlFor="phone">
-              Phone:
-              <span id="mandatoryPhone" className="mandatory">*</span>
+                Phone:
+                <span id="mandatoryPhone" className="mandatory">
+                    {formData.mandatoryPhone}
+                </span>
           </label><br/>
           <input type="text" id="phone" name="phone" required 
             value={formData.phone}
@@ -135,7 +212,8 @@ export default function RenderForm() {
           <label htmlFor="gender">Gender:</label><br/>
           <select id="gender" name="gender" 
           value={formData.gender}
-          onChange={handleChangeSelect} >
+          onChange={handleChange}
+           >
               <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>

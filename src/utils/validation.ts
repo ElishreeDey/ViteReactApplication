@@ -9,21 +9,18 @@
 */
 
 //This function will check if the name is empty or not. Can be used for other fields as well if needed to check NotIsEmpty.
-export function checkNotIsEmpty(name: string) {
-  const mandatoryName = document.getElementById("mandatoryName") as HTMLElement  | null;
+export function checkNotIsEmpty(name: string) {  
   if (name.trim() === "" || name == null) { 
-    if (mandatoryName) {           
-      mandatoryName.style.display  = "";
-      mandatoryName.innerHTML = "*";
-      return false;
-    }
+    return {
+      isValid: false,
+      errorMessage: "Please fill the value",
+    }; 
   }
   else {
-    if (mandatoryName) {        
-      mandatoryName.style.display  = "none";
-      mandatoryName.innerHTML = "*";
-      return false;
-    }
+    return {
+      isValid: true,
+      errorMessage: "",
+    }; 
   }
 }
 
@@ -31,50 +28,59 @@ export function checkNotIsEmpty(name: string) {
 export function validateEmail(email: string) {
   var pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
   var isValid:boolean = pattern.test(email); //alert(isValid);
-  const mandatoryEmail = document.getElementById("mandatoryEmail") as HTMLElement  | null;
         
   if (!isValid) {
-    if (mandatoryEmail) {          
-      mandatoryEmail.style.display  = "";
-      mandatoryEmail.innerHTML = "invalid email address";
-      return false;
-    }
+    // Invalid Email     
+    return {
+      isValid: false,
+      errorMessage: "Invalid email address",
+    };      
   }
   else {
-    if (mandatoryEmail) {
-      mandatoryEmail.style.display  = "none";          
-      mandatoryEmail.innerHTML = "";
-    }    
+      return {
+      isValid: true,
+      errorMessage: "",
+    };
   }
 }
 
 
 //This function will check if the phone number is valid or not.
+// and returns formatted value + error message
 export function validateFlexiblePhone(phone: string) {
-  var regex: RegExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-  var isValid:boolean = regex.test(phone);
-  var message: string;
-  const mandatoryPhone = document.getElementById("mandatoryPhone") as HTMLElement  | null;
-  const phoneEntry = document.getElementById("phone") as HTMLInputElement | null;
-    
-  if (!isValid) { //alert("here" + isValid);
-    if (mandatoryPhone) {
-      mandatoryPhone.innerHTML = "invalid phone number";
-      mandatoryPhone.style.display  = "";
-    }
-    message =  "error in phone number";
-    return message;
-  }
-  else { //alert(isValid);        
-    const formatted = phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'); // basic phone format as xxx-xxx-xxxx
-    if (mandatoryPhone) {
-      mandatoryPhone.innerHTML = "";
-      mandatoryPhone.style.display  = "none";
-    }
 
-    if (phoneEntry) {
-      phoneEntry.value = formatted;
-    }
+  // Remove non-digit characters
+  const digitsOnly = phone.replace(/\D/g, "");
 
-  }
+  // Validation regex
+  const regex: RegExp =
+    /^[0-9]{10}$/;
+
+  const isValid: boolean =
+    regex.test(digitsOnly);
+
+     
+  // Invalid phone
+  if (!isValid) { 
+    return {
+      isValid: false,
+      formattedPhone: phone,
+      errorMessage: "Invalid phone number",
+    };
+  } 
+
+  // Format phone number
+  const formattedPhone =
+    digitsOnly.replace(
+      /(\d{3})(\d{3})(\d{4})/,
+      "$1-$2-$3"
+    );
+
+  // Valid phone
+  return {
+    isValid: true,
+    formattedPhone,
+    errorMessage: "",
+  };
+
 }
