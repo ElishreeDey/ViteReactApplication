@@ -7,7 +7,7 @@
 * Created     : 2026-05-29
 ****************************************************************************************************************************
 */
-import type { MsgDataType } from '../type.ts';
+import type { MsgDataType } from '../type';
 
 export function showSnackbar(data: MsgDataType): void {
   const snackbar = document.getElementById("snackbar") as HTMLElement | null;
@@ -26,3 +26,6 @@ export function showSnackbar(data: MsgDataType): void {
     snackbar.className = snackbar.className.replace("show", "");
   }, 3000);
 }
+
+
+

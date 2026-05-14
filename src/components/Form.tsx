@@ -152,18 +152,33 @@ export default function RenderForm() {
         
     };
     
-    
-
     // Handle Form Submission
     const handleSubmit = (e: SubmitEvent) => {
         e.preventDefault();
         console.log('Form Submitted:', formData);
         //alert(`Hello, ${formData.userName}!`);
-        saveData();
-    };
+        //saveData();
+        const isSaved = saveData({
+        username: formData.userName,
+        email: formData.email,
+        phone: formData.phone,
+        gender: formData.gender,
+    });
 
-  
+    if (isSaved) {
 
+        // Clear form after successful save
+        setFormData({
+            userName: "",
+            email: "",
+            phone: "",
+            gender: "",
+            mandatoryName: "*",
+            mandatoryEmail: "*",
+            mandatoryPhone: "*",
+        });
+    }
+};
 
   return (
     <>
