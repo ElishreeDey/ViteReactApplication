@@ -23,5 +23,6 @@ export const ValidationMsg = {
 // Common Message Texts
 export const addEditDeleteMsgText = {
   dataSaveMsg: "Data saved successfully.",
+  dataEditMsg: "Data edited successfully.",
   deleteCancelTxt: "Deletion action is cancelled.",
 } as const;

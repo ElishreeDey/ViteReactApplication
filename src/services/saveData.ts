@@ -5,9 +5,9 @@
 ****************************************************************************************************************************
 */
 
-//import { clearEntryFields } from '../utils/clearEntries';
+
 import { checkNotIsEmpty, validateEmail, validateFlexiblePhone } from '../utils/validation';
-import { createTableFromData } from './createTable';
+
 
 import type { EntryDataBase } from '../type';
 
@@ -83,8 +83,7 @@ export function saveData(user: EntryDataBase): boolean {
     color: MsgBgCol.successMsgCol
   });
 
-  // Add to table
-  createTableFromData(user);
+  
 
   // Store in localStorage
   const storageKey = "setLocalStorageJSON";

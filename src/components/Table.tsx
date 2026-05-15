@@ -1,52 +1,92 @@
-/*
-****************************************************************************************************************************
-* Filename    : Form
-* Description : This file holds Table design in React
-* Author      : Elishree Dey Chand
-* Created     : 2026-05-13
-****************************************************************************************************************************
-*/
+import React from 'react';
 
-//Import images needed in Registered Table data
-import listIcon from '../assets/listicon.jpg'
-import editIcon from '../assets/editIcon.jpg'
-import deleteIcon from '../assets/deleteIcon.jpg'
+import editIcon from '../assets/editIcon.jpg';
+import deleteIcon from '../assets/deleteIcon.jpg';
+import listIcon from '../assets/listIcon.jpg';
 
-//import data type
-import type { EntryDataBase } from "../type";
+import type { EntryDataBase } from '../type';
 
+type TableProps = {
 
-/* In react component name as function should start with Capital e.g:RenderForm no error but e.g:renderForm
-will give error while calling from App.tsx */
+  tableData: EntryDataBase[];
 
-export default function RenderTable() {
+  onDelete: (index: number) => void;
+
+  onEdit: (index: number) => void;
+};
+
+export default function RenderTable({
+
+  tableData,
+
+  onDelete,
+
+  onEdit
+
+}: TableProps) {
+
   return (
-    <>
 
-      <div id="divTableComponent" className="tableCard">
-        <h1>            
-            <img src={listIcon} className="icon" alt="List Icon" />
-            <span>View Registered Data</span>
-        </h1>
-        <div className="tableWrapper">
-        <table id="viewData" className="displayRegisteredData">
-            <thead>
-                <tr>
-                    <th className="storedDataColHeader">Name</th>
-                    <th className="storedDataColHeader">Email</th>
-                    <th className="storedDataColHeader">Phone</th>
-                    <th className="storedDataColHeader">Gender</th>
-                    <th colSpan={2} className="storedDataColHeader" >Action</th>
-                </tr>
-            </thead>
-            
-        </table>
+    <div className="tableCard">
+
+      <h1>
+        <img
+          src={listIcon}
+          className="icon"
+          alt="List Icon"
+        />
+        Registered Data
+      </h1>
+
+      <table id="viewData">
+        <thead>
+          <tr>
+            <th className="storedDataColHeader">Name</th>
+            <th className="storedDataColHeader">Email</th>
+            <th className="storedDataColHeader">Phone</th>
+            <th className="storedDataColHeader">Gender</th>
+            <th className="storedDataColHeader">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {tableData.map((user, index) => (
+
+            <tr key={index}>
+
+              <td className="storedDataCol">{user.username}</td>
+              <td className="storedDataCol">{user.email}</td>
+              <td className="storedDataCol">{user.phone}</td>
+              <td className="storedDataCol">{user.gender}</td>
+              <td className="storedDataCol">
+                <img
+                  src={editIcon}
+                  className="editDeleteIcon"
+                  alt="Edit"
+                  onClick={() => onEdit(index)}
+                  style={{ cursor: 'pointer' }}
+                />
+                <img
+                  src={deleteIcon}
+                  className="editDeleteIcon"
+                  alt="Delete"
+                  onClick={() =>                   
+                    
+                    onDelete(index)
+                  }
+                  style={{ cursor: 'pointer' }}
+                />
+              </td>
+              
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
     </div>
-    <span id="editTableRowNo" className="invisible"></span>
-    </div>
-
-
-
-    </>
-  )
+  );
 }
