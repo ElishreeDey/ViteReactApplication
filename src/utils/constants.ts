@@ -26,3 +26,9 @@ export const addEditDeleteMsgText = {
   dataEditMsg: "Data edited successfully.",
   deleteCancelTxt: "Deletion action is cancelled.",
 } as const;
+
+// Common Message Texts
+export const deleteConformModal = {
+  delConfTitle: "Delete Confirmation",
+  delConfMsg: "Are you sure you want to delete this record?",
+} as const;

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-
-
 import RenderForm from './Form';
 import RenderTable from './Table';
-import RenderSnackbar from './Snackbar';
+import ConfirmModal from './ConfirmModel/ConfirmModal';
 
-import type { EntryDataBase } from './type';
-
-
+import type { EntryDataBase } from '../type';
 
 export default function App() {
 
@@ -22,7 +18,6 @@ export default function App() {
     useState<EntryDataBase | null>(null);
 
   useEffect(() => {
-
     const storedData = localStorage.getItem(
       'setLocalStorageJSON'
     );
@@ -34,7 +29,6 @@ export default function App() {
   }, []);
 
   const handleDelete = (index: number) => {
-
     const updatedData = tableData.filter(
       (_, i) => i !== index
     );
@@ -57,9 +51,7 @@ export default function App() {
   };
 
   return (
-
     <div className="pageContainer">
-
       <RenderForm
         tableData={tableData}
         setTableData={setTableData}
@@ -74,8 +66,7 @@ export default function App() {
         onEdit={handleEdit}
       />
 
-      <RenderSnackbar />
-      
+      <ConfirmModal />      
     </div>
   );
 }

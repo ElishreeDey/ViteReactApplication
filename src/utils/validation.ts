@@ -10,7 +10,7 @@
 
 //This function will check if the name is empty or not. Can be used for other fields as well if needed to check NotIsEmpty.
 export function checkNotIsEmpty(name: string) {  
-  if (name.trim() === "" || name == null) { 
+  if (!name || name.trim() === "") { 
     return {
       isValid: false,
       errorMessage: "Please fill the value",
@@ -26,8 +26,8 @@ export function checkNotIsEmpty(name: string) {
 
 //This function will check if the email is valid or not.
 export function validateEmail(email: string) {
-  var pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  var isValid:boolean = pattern.test(email); //alert(isValid);
+  const pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  const isValid:boolean = pattern.test(email); //alert(isValid);
         
   if (!isValid) {
     // Invalid Email     
