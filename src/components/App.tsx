@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import RenderForm from './Form';
 import RenderTable from './Table';
-import ConfirmModal from './ConfirmModel/ConfirmModal';
+import ConfirmModal from './ConfirmModal/ConfirmModal';
 
 import type { EntryDataBase } from '../type';
 

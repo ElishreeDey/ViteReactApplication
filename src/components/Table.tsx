@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 //import listIcon,editIcon,deleteIcon from images.ts file';
 import { editIcon, deleteIcon, listIcon } from '../assets/images';
 
-import ConfirmModal from './ConfirmModel/ConfirmModal';
+import ConfirmModal from './ConfirmModal/ConfirmModal';
 
 import type { EntryDataBase } from '../type';
 
