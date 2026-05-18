@@ -241,3 +241,7 @@ select {
   align-items: center;
   justify-content: center;
 }
+
+.highlightRow {
+  background-color: rgb(231, 252, 231);
+}

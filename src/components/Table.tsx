@@ -23,13 +23,19 @@ type TableProps = {
   tableData: EntryDataBase[];
   onDelete: (index: number) => void;
   onEdit: (index: number) => void;
+  selectedRow: number | null;
+  setSelectedRow: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
 };
 
 /* Component */
 export default function RenderTable({
   tableData,
   onDelete,
-  onEdit
+  onEdit,
+  selectedRow,
+  setSelectedRow
 }: TableProps) {
 
   /* Modal State */
@@ -43,14 +49,13 @@ export default function RenderTable({
   return (
 
     <div className="tableCard">
+
       {/* Heading*/}
-      <h1>
-        <img src={listIcon} className="icon" alt="List Icon"/>
-        Registered Data
-      </h1>
+      <h1> <img src={listIcon} className="icon" alt="List Icon"/> Registered Data </h1>
 
       {/* Table Wrapper */}
       <div className="tableWrapper">
+
         <table id="viewData" className="displayRegisteredData">
 
           {/* Table Header */}
@@ -66,27 +71,51 @@ export default function RenderTable({
 
           {/* Table Body */}
           <tbody>
+
             {tableData.map((user, index) => (
-              
+
               <tr key={index}>
-                <td className="storedDataCol">{user.username}</td>
-                <td className="storedDataCol">{user.email}</td>
-                <td className="storedDataCol">{user.phone}</td>
-                <td className="storedDataCol">{user.gender}</td>                
-                <td className="storedDataCol">
-                  <img src={editIcon} className="editDeleteIcon" alt="Edit"
-                    onClick={() => onEdit(index)}
-                  />
-                  <img src={deleteIcon} className="editDeleteIcon" alt="Delete"                    
+                <td className={`storedDataCol ${ selectedRow === index ? 'highlightRow' : '' }`}>
+                  {user.username}
+                </td>
+                <td className={`storedDataCol ${ selectedRow === index ? 'highlightRow' : '' }`}>
+                  {user.email}
+                </td>
+                <td className={`storedDataCol ${ selectedRow === index ? 'highlightRow' : '' }`}>
+                  {user.phone}
+                </td>
+                <td className={`storedDataCol ${ selectedRow === index ? 'highlightRow' : '' }`}>
+                  {user.gender}
+                </td>
+                <td className={`storedDataCol ${ selectedRow === index ? 'highlightRow' : '' }`}>
+
+                  {/* Edit Icon */}
+                  <img
+                    src={editIcon}
+                    className="editDeleteIcon"
+                    alt="Edit"
                     onClick={() => {
+                      setSelectedRow(index);
+                      onEdit(index);
+                    }}
+                  />
+
+                  {/* Delete Icon */}
+                  <img
+                    src={deleteIcon}
+                    className="editDeleteIcon"
+                    alt="Delete"
+                    onClick={() => {
+                      setSelectedRow(index);
                       setDeleteIndex(index);
                       setShowModal(true);
                     }}
                   />
+
                 </td>
               </tr>
-
             ))}
+
           </tbody>
         </table>
       </div>
@@ -94,18 +123,22 @@ export default function RenderTable({
       {/* Confirmation Modal */}
       <ConfirmModal
         isOpen={showModal}
-        title= {deleteConformModal.delConfTitle}
+        title={deleteConformModal.delConfTitle}
         message={deleteConformModal.delConfMsg}
         onConfirm={() => {
+
           if (deleteIndex !== null) {
             onDelete(deleteIndex);
           }
+
           setShowModal(false);
           setDeleteIndex(null);
+          setSelectedRow(null);
         }}
         onCancel={() => {
           setShowModal(false);
           setDeleteIndex(null);
+          setSelectedRow(null);
         }}
       />
 

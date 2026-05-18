@@ -33,6 +33,10 @@ type FormProps = {
     React.SetStateAction<number | null>
   >;
   editUser: EntryDataBase | null;
+  setSelectedRow: React.Dispatch<
+    React.SetStateAction<number | null>
+  >;
+
 };
 
 // Here React component name is "RenderForm" which can be imported into other files.
@@ -41,7 +45,8 @@ export default function RenderForm({
     setTableData,
     editIndex,
     setEditIndex,
-    editUser
+    editUser,
+    setSelectedRow
   }: FormProps) {
 
   const [formData, setFormData] = useState({
@@ -175,7 +180,6 @@ export default function RenderForm({
       setTableData(updatedData);
       saveToLocalStorage(updatedData);
       setEditIndex(null);
-
       // Toast Popup
       toast.success(`${addEditDeleteMsgText.dataEditMsg}`,{position: "top-right",});
     }
@@ -191,6 +195,8 @@ export default function RenderForm({
       saveToLocalStorage(updatedData);
       // Toast Popup
       toast.success(`${addEditDeleteMsgText.dataSaveMsg}`,{position: "top-right",});
+      setEditIndex(null); // make edit index null
+      setSelectedRow(null); // clear row highlight
     }
 
     /* CLEAR FORM*/
