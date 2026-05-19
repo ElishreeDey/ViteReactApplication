@@ -1,6 +1,7 @@
 This project is a Registration Form Application built using React, Vite, and TypeScript.
 
 Users can:
+
 - Add/Register user details
 - View registered data in a table
 - Edit existing records

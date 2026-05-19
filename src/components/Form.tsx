@@ -1,54 +1,50 @@
 /*
-****************************************************************************************************************************
-* Filename    : Form
-* Description : This file holds Form design for New Registation Data
-* Author      : Elishree Dey Chand
-* Created     : 2026-05-13
-****************************************************************************************************************************
-*/
+ ****************************************************************************************************************************
+ * Filename    : Form
+ * Description : This file holds Form design for New Registation Data
+ * Author      : Elishree Dey Chand
+ * Created     : 2026-05-13
+ ****************************************************************************************************************************
+ */
 
-import React, {useState, ChangeEvent, SubmitEvent, useEffect} from 'react';
+import React, { useState, ChangeEvent, SubmitEvent, useEffect } from 'react'
 
 // These imports are for Toastify pop-ups
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 //import faceIcon from images.ts file';
-import {faceIcon} from '../assets/images';
+import { faceIcon } from '../assets/images'
 
-import {checkNotIsEmpty,validateEmail,validateFlexiblePhone} from '../utils/validation';
+import {
+  checkNotIsEmpty,
+  validateEmail,
+  validateFlexiblePhone,
+} from '../utils/validation'
 
-import { addEditDeleteMsgText } from '../utils/constants';
+import { addEditDeleteMsgText } from '../utils/constants'
 
-import type { EntryDataBase } from '../type';
+import type { EntryDataBase } from '../type'
 
 /* FormProps - what props are coming into component, what datatype each prop must have */
 type FormProps = {
-  tableData: EntryDataBase[];
-  setTableData: React.Dispatch<
-    React.SetStateAction<EntryDataBase[]>
-  >;
-  editIndex: number | null;
-  setEditIndex: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
-  editUser: EntryDataBase | null;
-  setSelectedRow: React.Dispatch<
-    React.SetStateAction<number | null>
-  >;
-
-};
+  tableData: EntryDataBase[]
+  setTableData: React.Dispatch<React.SetStateAction<EntryDataBase[]>>
+  editIndex: number | null
+  setEditIndex: React.Dispatch<React.SetStateAction<number | null>>
+  editUser: EntryDataBase | null
+  setSelectedRow: React.Dispatch<React.SetStateAction<number | null>>
+}
 
 // Here React component name is "RenderForm" which can be imported into other files.
 export default function RenderForm({
-    tableData,
-    setTableData,
-    editIndex,
-    setEditIndex,
-    editUser,
-    setSelectedRow
-  }: FormProps) {
-
+  tableData,
+  setTableData,
+  editIndex,
+  setEditIndex,
+  editUser,
+  setSelectedRow,
+}: FormProps) {
   const [formData, setFormData] = useState({
     userName: '',
     email: '',
@@ -57,11 +53,10 @@ export default function RenderForm({
     mandatoryName: '*',
     mandatoryEmail: '*',
     mandatoryPhone: '*',
-  });
+  })
 
   // useEffect is a React Hook. When editUser clicked , fill the form with that user's data.
   useEffect(() => {
-
     if (editUser) {
       setFormData({
         userName: editUser.username,
@@ -71,132 +66,103 @@ export default function RenderForm({
         mandatoryName: '*',
         mandatoryEmail: '*',
         mandatoryPhone: '*',
-      });
+      })
     }
-
-  }, [editUser]);
+  }, [editUser])
 
   /* Save Data to LocalStorage */
-  const saveToLocalStorage = (
-    data: EntryDataBase[]
-  ) => {
-
+  const saveToLocalStorage = (data: EntryDataBase[]) => {
     try {
-      localStorage.setItem(
-        'setLocalStorageJSON',
-        JSON.stringify(data)
-      );
-
+      localStorage.setItem('setLocalStorageJSON', JSON.stringify(data))
     } catch (error) {
-      console.error("Failed to save data:",error);
-      toast.error("Unable to save data",{ position: "top-right",});
+      console.error('Failed to save data:', error)
+      toast.error('Unable to save data', { position: 'top-right' })
     }
-  };
+  }
 
   /* Handle Input Change */
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
   /* Handle Validation on Blur */
-  const handleBlur = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-
-    const { name, value } = e.target;
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
 
     // Name Validation
     if (name === 'userName') {
-      const result = checkNotIsEmpty(value);
+      const result = checkNotIsEmpty(value)
       setFormData((prev) => ({
         ...prev,
         mandatoryName:
-          value === ''
-            ? '*'
-            : result.isValid
-            ? ''
-            : result.errorMessage
-      }));
+          value === '' ? '*' : result.isValid ? '' : result.errorMessage,
+      }))
     }
 
     // Email Validation
     if (name === 'email') {
-      const result = validateEmail(value);
+      const result = validateEmail(value)
       setFormData((prev) => ({
         ...prev,
         mandatoryEmail:
-          value === ''
-            ? '*'
-            : result.isValid
-            ? ''
-            : result.errorMessage
-      }));
+          value === '' ? '*' : result.isValid ? '' : result.errorMessage,
+      }))
     }
 
     // Phone Validation
     if (name === 'phone') {
-      const result = validateFlexiblePhone(value);
+      const result = validateFlexiblePhone(value)
       setFormData((prev) => ({
         ...prev,
-        phone: result.isValid
-          ? result.formattedPhone
-          : prev.phone,
+        phone: result.isValid ? result.formattedPhone : prev.phone,
         mandatoryPhone:
-          value === ''
-            ? '*'
-            : result.isValid
-            ? ''
-            : result.errorMessage
-      }));
+          value === '' ? '*' : result.isValid ? '' : result.errorMessage,
+      }))
     }
-  };
+  }
 
   /* Handle Form Submit */
-  const handleSubmit = (
-    e: SubmitEvent
-  ) => {
-
-    e.preventDefault();
+  const handleSubmit = (e: SubmitEvent) => {
+    e.preventDefault()
 
     const userData = {
       username: formData.userName,
       email: formData.email,
       phone: formData.phone,
       gender: formData.gender,
-    };
+    }
 
     /* Edit the existing data when user clicks the edit icon */
     if (editIndex !== null) {
-      const updatedData = [...tableData];
-      updatedData[editIndex] = userData;
-      setTableData(updatedData);
-      saveToLocalStorage(updatedData);
-      setEditIndex(null);
+      const updatedData = [...tableData]
+      updatedData[editIndex] = userData
+      setTableData(updatedData)
+      saveToLocalStorage(updatedData)
+      setEditIndex(null)
       // Toast Popup
-      toast.success(`${addEditDeleteMsgText.dataEditMsg}`,{position: "top-right",});
-    }
+      toast.success(`${addEditDeleteMsgText.dataEditMsg}`, {
+        position: 'top-right',
+      })
+    } else {
 
     /* Adding new data */
-    else {
-      const updatedData = [
-        userData,
-        ...tableData
-      ];
+      const updatedData = [userData, ...tableData]
 
-      setTableData(updatedData);
-      saveToLocalStorage(updatedData);
+      setTableData(updatedData)
+      saveToLocalStorage(updatedData)
       // Toast Popup
-      toast.success(`${addEditDeleteMsgText.dataSaveMsg}`,{position: "top-right",});
-      setEditIndex(null); // make edit index null
-      setSelectedRow(null); // clear row highlight
+      toast.success(`${addEditDeleteMsgText.dataSaveMsg}`, {
+        position: 'top-right',
+      })
+      setEditIndex(null) // make edit index null
+      setSelectedRow(null) // clear row highlight
     }
 
     /* CLEAR FORM*/
@@ -208,21 +174,22 @@ export default function RenderForm({
       mandatoryName: '*',
       mandatoryEmail: '*',
       mandatoryPhone: '*',
-    });
-  };
+    })
+  }
 
   return (
-
     <div id="divFormComponent" className="formCard">
       <h1>
-        <img src={faceIcon} className="icon" alt="Face Icon"/>
+        <img src={faceIcon} className="icon" alt="Face Icon" />
         <span>Registration</span>
       </h1>
 
-      <form id="registrationForm" onSubmit={handleSubmit}>     
+      <form id="registrationForm" onSubmit={handleSubmit}>
         <label htmlFor="userName">
           First name:
-          <span id="mandatoryName" className="mandatory">{formData.mandatoryName}</span>
+          <span id="mandatoryName" className="mandatory">
+            {formData.mandatoryName}
+          </span>
         </label>
         <br />
         <input
@@ -238,7 +205,9 @@ export default function RenderForm({
 
         <label htmlFor="email">
           Email:
-          <span id="mandatoryEmail" className="mandatory">{formData.mandatoryEmail}</span>
+          <span id="mandatoryEmail" className="mandatory">
+            {formData.mandatoryEmail}
+          </span>
         </label>
         <br />
         <input
@@ -251,10 +220,12 @@ export default function RenderForm({
           onBlur={handleBlur}
         />
         <br />
-        
+
         <label htmlFor="phone">
           Phone:
-          <span id="mandatoryPhone" className="mandatory">{formData.mandatoryPhone}</span>
+          <span id="mandatoryPhone" className="mandatory">
+            {formData.mandatoryPhone}
+          </span>
         </label>
         <br />
         <input
@@ -266,9 +237,10 @@ export default function RenderForm({
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <br />        
+        <br />
 
-        <label htmlFor="gender">Gender:</label><br />
+        <label htmlFor="gender">Gender:</label>
+        <br />
         <select
           id="gender"
           name="gender"
@@ -280,17 +252,15 @@ export default function RenderForm({
           <option value="female"> Female</option>
         </select>
         <br />
-        <br />       
+        <br />
 
         <button id="btnAddData" type="submit">
-          {editIndex !== null
-            ? 'Save Changes'
-            : 'Submit'}
+          {editIndex !== null ? 'Save Changes' : 'Submit'}
         </button>
       </form>
 
       {/* Toastify Popup UI render else toastify pop-up will not open */}
       <ToastContainer />
     </div>
-  );
+  )
 }

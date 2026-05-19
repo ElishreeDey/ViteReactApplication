@@ -1,23 +1,23 @@
 /*
-****************************************************************************************************************************
-* Filename    : images
-* Description : This is the ConfirmModel design screen
-* Author      : Elishree Dey Chand
-* Created     : 2026-05-13
-****************************************************************************************************************************
-*/
+ ****************************************************************************************************************************
+ * Filename    : images
+ * Description : This is the ConfirmModel design screen
+ * Author      : Elishree Dey Chand
+ * Created     : 2026-05-13
+ ****************************************************************************************************************************
+ */
 
-import React from "react";
+import React from 'react'
 
-import "./ConfirmModal.css";
+import './ConfirmModal.css'
 
 type ConfirmModalProps = {
-  isOpen: boolean;
-  title: string;
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-};
+  isOpen: boolean
+  title: string
+  message: string
+  onConfirm: () => void
+  onCancel: () => void
+}
 
 export default function ConfirmModal({
   isOpen,
@@ -26,9 +26,8 @@ export default function ConfirmModal({
   onConfirm,
   onCancel,
 }: ConfirmModalProps) {
-
   // Don't render anything if modal is closed
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="confirm-overlay" onClick={onCancel}>
@@ -46,5 +45,5 @@ export default function ConfirmModal({
         </div>
       </div>
     </div>
-  );
+  )
 }
