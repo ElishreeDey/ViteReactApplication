@@ -7,12 +7,7 @@
  ****************************************************************************************************************************
  */
 
-import React, {
-  useState,
-  ChangeEvent,
-  SubmitEvent,
-  useEffect,
-} from 'react'
+import React, { useState, ChangeEvent, SubmitEvent, useEffect } from 'react'
 
 import { toast } from 'react-toastify'
 
@@ -22,9 +17,9 @@ import {
   validateFlexiblePhone,
 } from '../utils/validation'
 
-import { addEditDeleteMsgText } from '../utils/constants'
+import { USER_MESSAGES, CONSOLE_MSG, TOAST_MSG } from '../constants'
 
-import { saveUsersToStorage } from '../services/userService'
+import { saveUsersToStorage } from '../services'
 
 import type { EntryDataBase } from '../types'
 
@@ -138,18 +133,17 @@ export default function useUserForm({
       try {
         saveUsersToStorage(updatedData)
       } catch (error) {
-        console.error('Failed to save data:', error)
-        toast.error('Unable to save data', { position: 'top-right' })
+        console.error(CONSOLE_MSG.saveDataErr, error)
+        toast.error(TOAST_MSG.saveFail, { position: 'top-right' })
       }
 
       setEditIndex(null)
 
       // Toast Popup
-      toast.success(`${addEditDeleteMsgText.dataEditMsg}`, {
+      toast.success(USER_MESSAGES.editSuccess, {
         position: 'top-right',
       })
     } else {
-
       /* Adding new data */
       const updatedData = [userData, ...tableData]
 
@@ -158,12 +152,12 @@ export default function useUserForm({
       try {
         saveUsersToStorage(updatedData)
       } catch (error) {
-        console.error('Failed to save data:', error)
-        toast.error('Unable to save data', { position: 'top-right' })
+        console.error(CONSOLE_MSG.saveDataErr, error)
+        toast.error(TOAST_MSG.saveFail, { position: 'top-right' })
       }
 
       // Toast Popup
-      toast.success(`${addEditDeleteMsgText.dataSaveMsg}`, {
+      toast.success(USER_MESSAGES.saveSuccess, {
         position: 'top-right',
       })
 

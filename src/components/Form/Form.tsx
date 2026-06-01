@@ -9,12 +9,13 @@
 
 import React from 'react'
 
-//import faceIcon from images.ts file';
-import { faceIcon } from '../assets/images'
+import { faceIcon } from '../../assets'
 
-import useUserForm from '../hooks/useUserForm'
+import { useUserForm } from '../../hooks'
 
-import type { EntryDataBase } from '../types'
+import { Input, Select, Button } from '../UI'
+
+import type { EntryDataBase } from '../../types'
 
 /* FormProps - what props are coming into component, what datatype each prop must have */
 type FormProps = {
@@ -35,13 +36,7 @@ export default function RenderForm({
   editUser,
   setSelectedRow,
 }: FormProps) {
-
-  const {
-    formData,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-  } = useUserForm({
+  const { formData, handleChange, handleBlur, handleSubmit } = useUserForm({
     tableData,
     setTableData,
     editIndex,
@@ -65,7 +60,9 @@ export default function RenderForm({
           </span>
         </label>
         <br />
-        <input
+
+        {/* Reusable Input Component */}
+        <Input
           type="text"
           id="userName"
           name="userName"
@@ -83,7 +80,9 @@ export default function RenderForm({
           </span>
         </label>
         <br />
-        <input
+
+        {/* Reusable Input Component */}
+        <Input
           type="email"
           id="email"
           name="email"
@@ -101,7 +100,9 @@ export default function RenderForm({
           </span>
         </label>
         <br />
-        <input
+
+        {/* Reusable Input Component */}
+        <Input
           type="text"
           id="phone"
           name="phone"
@@ -114,22 +115,27 @@ export default function RenderForm({
 
         <label htmlFor="gender">Gender:</label>
         <br />
-        <select
+
+        {/* Reusable Select Component */}
+        <Select
           id="gender"
           name="gender"
           value={formData.gender}
           onChange={handleChange}
-        >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female"> Female</option>
-        </select>
+          options={[
+            { label: 'Select Gender', value: '' },
+            { label: 'Male', value: 'male' },
+            { label: 'Female', value: 'female' },
+          ]}
+        />
+
         <br />
         <br />
 
-        <button id="btnAddData" type="submit">
+        {/* Reusable Button Component */}
+        <Button type="submit">
           {editIndex !== null ? 'Save Changes' : 'Submit'}
-        </button>
+        </Button>
       </form>
     </div>
   )

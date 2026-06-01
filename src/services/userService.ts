@@ -9,6 +9,8 @@
 
 import type { EntryDataBase } from '../types'
 
+import { CONSOLE_MSG } from '../constants'
+
 const STORAGE_KEY = 'setLocalStorageJSON'
 
 /* Get Users from Local Storage */
@@ -17,22 +19,17 @@ export const getUsersFromStorage = (): EntryDataBase[] => {
     const data = localStorage.getItem(STORAGE_KEY)
     return data ? JSON.parse(data) : []
   } catch (error) {
-    console.error('Failed to load data:', error)
+    console.error(CONSOLE_MSG.loadDataErr, error)
     return []
   }
 }
 
 /* Save Users to Local Storage */
-export const saveUsersToStorage = (
-  data: EntryDataBase[]
-): void => {
+export const saveUsersToStorage = (data: EntryDataBase[]): void => {
   try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(data)
-    )
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   } catch (error) {
-    console.error('Failed to save data:', error)
+    console.error(CONSOLE_MSG.saveDataErr, error)
     throw error
   }
 }
