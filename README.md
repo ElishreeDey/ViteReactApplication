@@ -10,4 +10,4 @@ Users can:
 - Store data in LocalStorage
 - View success notifications using Toastify
 - testing git branch
-- Add ne column
+- Add new column1
